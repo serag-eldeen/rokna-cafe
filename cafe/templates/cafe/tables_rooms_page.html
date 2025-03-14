@@ -1,0 +1,484 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إدارة الترابيزات والغرف</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Orbitron', 'Poppins', sans-serif;
+            background: linear-gradient(180deg, #e4d3c1 0%, #d89b6e 100%);
+            color: #aa5825;
+            line-height: 1.8;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            direction: rtl;
+            text-align: right;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(170, 88, 37, 0.3) 0%, transparent 60%);
+            z-index: -1;
+            animation: cosmic-pulse 12s infinite ease-in-out;
+        }
+
+        @keyframes cosmic-pulse {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 0.7; }
+        }
+
+        body::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: rgba(228, 211, 193, 0.8);
+            border-radius: 50%;
+            box-shadow: 0 0 25px rgba(228, 211, 193, 0.6);
+            animation: orbit 18s infinite ease-in-out;
+            top: 15%;
+            left: 25%;
+        }
+
+        @keyframes orbit {
+            0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.5; }
+            50% { transform: translate(50vw, 60vh) scale(1.4); opacity: 0.8; }
+        }
+
+        .tables-rooms-container {
+            max-width: 1100px;
+            margin: 80px auto;
+            padding: 40px;
+            background: rgba(228, 211, 193, 0.9);
+            border-radius: 30px;
+            box-shadow: 0 12px 50px rgba(170, 88, 37, 0.3), 0 0 70px rgba(216, 155, 110, 0.2);
+            position: relative;
+            transition: transform 0.5s ease, box-shadow 0.5s ease;
+            border: 3px solid rgba(170, 88, 37, 0.5);
+        }
+
+        .tables-rooms-container:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 18px 60px rgba(170, 88, 37, 0.4), 0 0 90px rgba(216, 155, 110, 0.3);
+        }
+
+        h1 {
+            font-size: 3.5em;
+            color: #aa5825;
+            text-align: center;
+            margin-bottom: 20px;
+            text-shadow: 0 0 20px rgba(170, 88, 37, 0.6), 0 0 30px rgba(228, 211, 193, 0.4);
+            animation: glow 2.5s infinite ease-in-out;
+        }
+
+        @keyframes glow {
+            0%, 100% { text-shadow: 0 0 20px rgba(170, 88, 37, 0.6), 0 0 30px rgba(228, 211, 193, 0.4); }
+            50% { text-shadow: 0 0 30px rgba(170, 88, 37, 0.8), 0 0 40px rgba(228, 211, 193, 0.6); }
+        }
+
+        .section {
+            margin-bottom: 50px;
+            padding: 25px;
+            background: rgba(216, 155, 110, 0.1);
+            border-radius: 20px;
+            box-shadow: 0 5px 20px rgba(170, 88, 37, 0.15);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(216, 155, 110, 0.25);
+        }
+
+        h2 {
+            font-size: 2em;
+            color: #aa5825;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px rgba(170, 88, 37, 0.3);
+        }
+
+        form {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        input[type="number"], select {
+            padding: 12px 18px;
+            font-size: 1.1em;
+            background: rgba(228, 211, 193, 0.7);
+            border: 2px solid #aa5825;
+            border-radius: 10px;
+            color: #aa5825;
+            outline: none;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+            width: 200px;
+        }
+
+        input[type="number"]:focus, select:focus {
+            border-color: #d89b6e;
+            box-shadow: 0 0 15px rgba(216, 155, 110, 0.5);
+            transform: scale(1.02);
+        }
+
+        button[type="submit"] {
+            padding: 12px 25px;
+            background: linear-gradient(45deg, #e4d3c1, #d89b6e);
+            color: #aa5825;
+            border: none;
+            border-radius: 15px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(170, 37, 0.2);
+            transition: transform 0.4s ease, background 0.4s ease, color 0.4s ease, box-shadow 0.3s ease;
+        }
+
+        button[type="submit"]:hover {
+            transform: translateY(-5px) scale(1.05);
+            background: linear-gradient(45deg, #d89b6e, #aa5825);
+            color: #e4d3c1;
+            box-shadow: 0 10px 25px rgba(216, 155, 110, 0.4);
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            padding: 15px 20px;
+            margin: 10px 0;
+            background: rgba(228, 211, 193, 0.8);
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(170, 88, 37, 0.15);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+        }
+
+        li:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(216, 155, 110, 0.3);
+            background: rgba(216, 155, 110, 0.3);
+        }
+
+        .edit-btn, .delete-btn {
+            padding: 8px 15px;
+            font-size: 0.9em;
+            background: #e4d3c1;
+            color: #aa5825;
+            border: 2px solid #aa5825;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.3s ease, background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .edit-btn:hover {
+            transform: translateY(-3px);
+            background: #d89b6e;
+            color: #e4d3c1;
+            box-shadow: 0 5px 15px rgba(216, 155, 110, 0.4);
+        }
+
+        .delete-btn {
+            margin-left: 10px;
+            background: rgba(170, 88, 37, 0.2);
+        }
+
+        .delete-btn:hover {
+            transform: translateY(-3px);
+            background: #aa5825;
+            color: #e4d3c1;
+            box-shadow: 0 5px 15px rgba(170, 88, 37, 0.4);
+        }
+
+        .success {
+            color: #aa5825;
+            background: rgba(170, 88, 37, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(170, 88, 37, 0.2);
+        }
+
+        .error {
+            color: #d89b6e;
+            background: rgba(216, 155, 110, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(216, 155, 110, 0.2);
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 40px;
+            font-size: 1.3em;
+            color: #aa5825;
+            text-decoration: none;
+            transition: color 0.3s ease, transform 0.3s ease, text-shadow 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: #d89b6e;
+            transform: scale(1.1);
+            text-shadow: 0 0 10px rgba(216, 155, 110, 0.5);
+        }
+
+        @media (max-width: 768px) {
+            .tables-rooms-container {
+                margin: 20px 10px;
+                padding: 20px;
+                max-width: 100%;
+            }
+            h1 {
+                font-size: 2.5em;
+            }
+            .section {
+                padding: 15px;
+                margin-bottom: 30px;
+            }
+            h2 {
+                font-size: 1.5em;
+            }
+            form {
+                gap: 10px;
+            }
+            input[type="number"], select {
+                width: 150px;
+                padding: 10px;
+                font-size: 1em;
+            }
+            button[type="submit"] {
+                padding: 10px 20px;
+                font-size: 1em;
+            }
+            li {
+                padding: 10px 15px;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            .edit-btn, .delete-btn {
+                padding: 6px 12px;
+                font-size: 0.85em;
+            }
+            .back-link {
+                font-size: 1.1em;
+                margin-top: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .tables-rooms-container {
+                margin: 10px 5px;
+                padding: 15px;
+            }
+            h1 {
+                font-size: 2em;
+            }
+            h2 {
+                font-size: 1.2em;
+            }
+            input[type="number"], select {
+                width: 120px;
+                padding: 8px;
+                font-size: 0.9em;
+            }
+            button[type="submit"] {
+                padding: 8px 15px;
+                font-size: 0.9em;
+            }
+            li {
+                padding: 8px 10px;
+            }
+            .edit-btn, .delete-btn {
+                padding: 5px 10px;
+                font-size: 0.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="tables-rooms-container">
+        <h1>إدارة الترابيزات والغرف</h1>
+        {% if message %}
+            <p class="success">{{ message }}</p>
+        {% endif %}
+        {% if error %}
+            <p class="error">{{ error }}</p>
+        {% endif %}
+
+        <div class="section">
+            <h2>إدارة الترابيزات</h2>
+            <form id="add-table-form" method="POST" action="{% url 'cafe:add_table' %}">
+                {% csrf_token %}
+                <input type="number" name="number" placeholder="رقم الترابيزة" required>
+                <select name="reservation_type" required>
+                    <option value="" disabled selected>اختر النوع</option>
+                    {% for type_value, type_display in reservation_types %}
+                        <option value="{{ type_value }}">
+                            {% if type_value == "single" %}فردي{% elif type_value == "families" %}عائلات{% elif type_value == "youth" %}شباب{% elif type_value == "match" %}ماتش{% else %}{{ type_display }}{% endif %}
+                        </option>
+                    {% endfor %}
+                </select>
+                <button type="submit">إضافة ترابيزة</button>
+            </form>
+            <ul id="tables-list">
+                {% for table in tables %}
+                    <li>
+                        ترابيزة {{ table.number }} - {{ table.get_reservation_type_display }} - {{ table.is_available|yesno:"متاحة,محجوزة" }}
+                        <div>
+                            <button class="edit-btn" data-id="{{ table.id }}" data-number="{{ table.number }}" 
+                                    data-reservation-type="{{ table.reservation_type }}" data-available="{{ table.is_available }}">تعديل</button>
+                            <button class="delete-btn" data-id="{{ table.id }}">حذف</button>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>إدارة الغرف</h2>
+            <form id="add-room-form" method="POST" action="{% url 'cafe:add_room' %}">
+                {% csrf_token %}
+                <input type="number" name="number" placeholder="رقم الغرفة" required>
+                <button type="submit">إضافة غرفة</button>
+            </form>
+            <ul id="rooms-list">
+                {% for room in rooms %}
+                    <li>
+                        غرفة {{ room.number }} - {{ room.is_available|yesno:"متاحة,محجوزة" }}
+                        <div>
+                            <button class="edit-btn" data-id="{{ room.id }}" data-number="{{ room.number }}" data-available="{{ room.is_available }}">تعديل</button>
+                            <button class="delete-btn" data-id="{{ room.id }}">حذف</button>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <a href="{% url 'cafe:admin_page' %}" class="back-link">العودة للوحة التحكم</a>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // التعامل مع أزرار التعديل
+            document.querySelectorAll('.edit-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const id = this.getAttribute('data-id');
+                    const type = this.closest('.section').querySelector('h2').textContent.includes('الترابيزات') ? 'table' : 'room';
+
+                    if (type === 'table') {
+                        const number = this.getAttribute('data-number');
+                        const reservationType = this.getAttribute('data-reservation-type');
+                        const isAvailable = this.getAttribute('data-available') === 'True';
+                        const newNumber = prompt('أدخل رقم الترابيزة الجديد:', number);
+                        const newReservationType = prompt('أدخل نوع الحجز (فردي، عائلات، شباب، ماتش):', reservationType);
+                        const newAvailable = confirm('هل الترابيزة متاحة؟ (موافق لنعم، إلغاء للا)');
+                        if (newNumber !== null && newReservationType !== null) {
+                            fetch(`/cafe/admin/edit_table/${id}/`, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/x-www-form-urlencoded',
+                                    'X-CSRFToken': getCookie('csrftoken')
+                                },
+                                body: `number=${encodeURIComponent(newNumber)}&reservation_type=${encodeURIComponent(newReservationType)}&is_available=${newAvailable}`
+                            }).then(response => {
+                                if (response.ok) {
+                                    location.reload();
+                                } else {
+                                    alert('فشل تحديث الترابيزة. تأكد إن نوع الحجز صحيح (فردي، عائلات، شباب، ماتش).');
+                                }
+                            });
+                        }
+                    } else if (type === 'room') {
+                        const number = this.getAttribute('data-number');
+                        const isAvailable = this.getAttribute('data-available') === 'True';
+                        const newNumber = prompt('أدخل رقم الغرفة الجديد:', number);
+                        const newAvailable = confirm('هل الغرفة متاحة؟ (موافق لنعم، إلغاء للا)');
+                        if (newNumber !== null) {
+                            fetch(`/cafe/admin/edit_room/${id}/`, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/x-www-form-urlencoded',
+                                    'X-CSRFToken': getCookie('csrftoken')
+                                },
+                                body: `number=${encodeURIComponent(newNumber)}&is_available=${newAvailable}`
+                            }).then(response => {
+                                if (response.ok) {
+                                    location.reload();
+                                } else {
+                                    alert('فشل تحديث الغرفة');
+                                }
+                            });
+                        }
+                    }
+                });
+            });
+
+            // التعامل مع أزرار الحذف
+            document.querySelectorAll('.delete-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const id = this.getAttribute('data-id');
+                    const type = this.closest('.section').querySelector('h2').textContent.includes('الترابيزات') ? 'table' : 'room';
+
+                    if (confirm('متأكد إنك عايز تحذف؟')) {
+                        const url = type === 'table' ? `/cafe/admin/delete_table/${id}/` : `/cafe/admin/delete_room/${id}/`;
+                        fetch(url, {
+                            method: 'POST',
+                            headers: {
+                                'X-CSRFToken': getCookie('csrftoken')
+                            }
+                        }).then(response => {
+                            if (response.ok) {
+                                location.reload();
+                            } else {
+                                alert('فشل الحذف');
+                            }
+                        });
+                    }
+                });
+            });
+
+            function getCookie(name) {
+                let cookieValue = null;
+                if (document.cookie && document.cookie !== '') {
+                    const cookies = document.cookie.split(';');
+                    for (let i = 0; i < cookies.length; i++) {
+                        const cookie = cookies[i].trim();
+                        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+        });
+    </script>
+</body>
+</html>

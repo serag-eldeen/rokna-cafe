@@ -1,0 +1,310 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>احجز أوضة بلاستيشن - كافيه ركنة</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #e4d3c1 0%, #d89b6e 100%);
+            color: #aa5825;
+            line-height: 1.6;
+            direction: rtl;
+            text-align: right;
+        }
+        .reserve-container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #aa5825;
+            font-size: 2em;
+        }
+        p {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px; /* زيادة المسافة بين الحقول */
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 0 10px;
+        }
+        label {
+            color: #aa5825;
+            font-size: 1em;
+            margin-bottom: 5px;
+        }
+        select, input[type="date"], input[type="time"] {
+            padding: 8px;
+            border: 1px solid #aa5825;
+            border-radius: 5px;
+            font-size: 1em;
+            width: 100%;
+        }
+        button[type="submit"] {
+            padding: 10px;
+            background: #aa5825;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background 0.3s ease;
+        }
+        button[type="submit"]:hover {
+            background: #d89b6e;
+        }
+        .reservations-list {
+            margin-top: 20px;
+            padding: 0 10px;
+        }
+        .reservation-item {
+            padding: 8px;
+            margin: 5px 0;
+            border-radius: 5px;
+            font-size: 0.9em;
+        }
+        .reserved {
+            background: #d89b6e;
+            color: white;
+        }
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+            color: #aa5825;
+            text-decoration: none;
+            font-size: 1em;
+        }
+        .back-link:hover {
+            color: #d89b6e;
+        }
+        .success {
+            color: green;
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 0.9em;
+        }
+        .error {
+            color: red;
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 0.9em;
+        }
+        h2 {
+            color: #aa5825;
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+        .help-text {
+            color: #666;
+            font-size: 0.8em;
+            margin-top: 5px;
+        }
+        @media (max-width: 768px) {
+            .reserve-container {
+                margin: 10px;
+                padding: 10px;
+            }
+            h1 {
+                font-size: 1.5em;
+            }
+            h2 {
+                font-size: 1.2em;
+            }
+            form {
+                padding: 0 5px;
+            }
+            select, input[type="date"], input[type="time"] {
+                padding: 6px;
+                font-size: 0.9em;
+            }
+            button[type="submit"] {
+                padding: 8px;
+                font-size: 0.9em;
+            }
+            .reservations-list {
+                margin-top: 15px;
+            }
+            .reservation-item {
+                padding: 6px;
+                font-size: 0.85em;
+            }
+            .back-link {
+                margin-top: 10px;
+                font-size: 0.9em;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.2em;
+            }
+            h2 {
+                font-size: 1em;
+            }
+            .reserve-container {
+                margin: 5px;
+                padding: 8px;
+            }
+            .reservation-item {
+                font-size: 0.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="reserve-container">
+        <h1>احجز أوضة بلاستيشن</h1>
+        {% if message %}
+            <p class="success">{{ message }}</p>
+        {% endif %}
+        {% if error %}
+            <p class="error">{{ error }}</p>
+        {% endif %}
+        {% if user.is_authenticated %}
+            <p>أهلاً يا {{ user.username }}!</p>
+            <form method="POST" id="ps-room-form">
+                {% csrf_token %}
+                <div>
+                    <label for="room-number">اختار الأوضة</label>
+                    <select name="room_number" id="room-number" required>
+                        <option value="" disabled selected>اختار أوضة</option>
+                        {% for room in rooms %}
+                            <option value="{{ room.number }}">أوضة {{ room.number }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div>
+                    <label for="reservation-date">اختار المعاد (التاريخ)</label>
+                    <input type="date" name="date" id="reservation-date" required>
+                </div>
+                <div>
+                    <label for="start-time">اختار الوقت</label>
+                    <input type="time" name="start_time" id="start-time" required>
+                </div>
+                <div>
+                    <label for="duration">اختار المدة</label>
+                    <select name="duration" id="duration" required>
+                        <option value="" disabled selected>اختار المدة</option>
+                        <option value="30">نص ساعة</option>
+                        <option value="60">ساعة</option>
+                        <option value="90">ساعة ونص</option>
+                        <option value="120">ساعتين</option>
+                        <option value="150">ساعتين ونص</option>
+                        <option value="180">3 ساعات</option>
+                        <option value="210">3 ساعات ونص</option>
+                        <option value="240">4 ساعات</option>
+                    </select>
+                </div>
+                <button type="submit">احجز</button>
+            </form>
+
+            <div class="reservations-list" id="reservations-list">
+                <h2>الحجوزات للتاريخ المختار</h2>
+                <div id="reservations-content">
+                    <!-- الحجوزات هتتحط هنا ديناميكيًا -->
+                </div>
+            </div>
+        {% else %}
+            <p>لو سمحت <a href="{% url 'login' %}">ادخل</a> أو <a href="{% url 'cafe:signup' %}">سجل</a> عشان تحجز.</p>
+        {% endif %}
+        <a href="{% url 'cafe:home' %}" class="back-link">رجوع</a>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const dateInput = document.getElementById('reservation-date');
+            const reservationsContent = document.getElementById('reservations-content');
+
+            // تحديد أقل تاريخ ممكن النهاردة
+            const today = new Date().toISOString().split('T')[0];
+            dateInput.setAttribute('min', today);
+
+            dateInput.addEventListener('change', function() {
+                const selectedDate = this.value;
+                if (selectedDate) {
+                    fetch(`/cafe/get_room_reservations/?date=${selectedDate}`, {
+                        method: 'GET',
+                        headers: {
+                            'X-CSRFToken': getCookie('csrftoken'),
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        reservationsContent.innerHTML = ''; // مسح المحتوى السابق
+
+                        if (data.room_reservations && data.room_reservations.length > 0) {
+                            // تجميع الحجوزات حسب رقم الأوضة وترتيبها حسب وقت البداية
+                            const groupedReservations = {};
+                            data.room_reservations.forEach(res => {
+                                if (!groupedReservations[res.room]) {
+                                    groupedReservations[res.room] = [];
+                                }
+                                groupedReservations[res.room].push({
+                                    start_time: res.start_time,
+                                    duration: res.duration,
+                                    timestamp: new Date(`1970-01-01 ${res.start_time}`).getTime() // للترتيب
+                                });
+                            });
+
+                            // ترتيب وعرض الحجوزات المجمعة
+                            Object.keys(groupedReservations).sort().forEach(room => {
+                                const reservations = groupedReservations[room];
+                                // ترتيب حسب الوقت من الأقدم للأحدث
+                                reservations.sort((a, b) => a.timestamp - b.timestamp);
+
+                                const div = document.createElement('div');
+                                div.className = 'reservation-item reserved';
+                                const times = reservations.map(res => 
+                                    `الساعة ${res.start_time} لمدة ${res.duration} دقيقة`
+                                ).join(' و ');
+                                div.textContent = `أوضة ${room} - محجوزة ${times}`;
+                                reservationsContent.appendChild(div);
+                            });
+                        } else {
+                            reservationsContent.innerHTML = '<p class="success">مفيش حجوزات للتاريخ ده.</p>';
+                        }
+                    })
+                    .catch(error => {
+                        console.error('خطأ في جلب الحجوزات:', error);
+                        reservationsContent.innerHTML = '<p class="error">فشل تحميل الحجوزات.</p>';
+                    });
+                } else {
+                    reservationsContent.innerHTML = '<p>لو سمحت اختار تاريخ.</p>';
+                }
+            });
+        });
+
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+    </script>
+</body>
+</html>

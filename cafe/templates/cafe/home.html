@@ -1,0 +1,791 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <title>رُكنَة كافيه</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Add Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #e4d3c1 0%, #d89b6e 100%);
+            color: #aa5825;
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Particles Container */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+        .particle {
+            position: absolute;
+            background: rgba(228, 211, 193, 0.8);
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(216, 155, 110, 0.6);
+        }
+
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(170, 88, 37, 0.2);
+            z-index: 1000;
+        }
+        .nav-container {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .logo img {
+            height: 60px;
+            width: auto;
+        }
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+            transition: all 0.3s ease;
+        }
+        .nav-links li a {
+            color: #aa5825;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+        .nav-links li a:hover {
+            color: #d89b6e;
+            transform: scale(1.1);
+        }
+        .hamburger {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.8em;
+            color: #aa5825;
+            cursor: pointer;
+            z-index: 1001;
+        }
+        .points-display {
+            color: #aa5825;
+            font-weight: 500;
+            font-size: 1em;
+            margin-left: 10px;
+        }
+        .nav-links li {
+            display: flex;
+            align-items: center;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+        }
+        .hero h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            text-shadow: 0 0 15px rgba(170, 88, 37, 0.5);
+        }
+        .description {
+            font-size: 1.3em;
+            max-width: 600px;
+            margin-bottom: 30px;
+        }
+        .cta-button {
+            padding: 15px 30px;
+            background: #aa5825;
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .cta-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(170, 88, 37, 0.5);
+        }
+
+        /* Menu Section (Carousel) */
+        .menu {
+            padding: 80px 20px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+        .menu h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5em;
+            margin-bottom: 40px;
+        }
+        .carousel {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+        }
+        .carousel-track {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+        .carousel-item {
+            min-width: 100%;
+            height: 700px;
+            background-size: auto 700px;
+            background-repeat: no-repeat;
+            background-position: center;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(170, 88, 37, 0.2);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        .carousel-item.active {
+            opacity: 1;
+        }
+        .carousel-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(170, 88, 37, 0.7);
+            color: #e4d3c1;
+            border: none;
+            padding: 15px;
+            font-size: 1.5em;
+            cursor: pointer;
+            border-radius: 50%;
+            transition: background 0.3s ease;
+            z-index: 10;
+        }
+        .carousel-arrow:hover {
+            background: #aa5825;
+        }
+        .left-arrow {
+            left: 20px;
+        }
+        .right-arrow {
+            right: 20px;
+        }
+
+        /* Feedback Section */
+        .feedback {
+            padding: 80px 20px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        .feedback h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5em;
+            margin-bottom: 40px;
+        }
+        .feedback-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(170, 88, 37, 0.2);
+        }
+        .feedback-form input, .feedback-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #aa5825;
+            border-radius: 5px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1em;
+        }
+        .feedback-form textarea {
+            height: 100px;
+            resize: none;
+        }
+        .feedback-form button {
+            padding: 10px 20px;
+            background: #aa5825;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .feedback-form button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(170, 88, 37, 0.5);
+        }
+
+        /* Services Section */
+        .services {
+            padding: 80px 20px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        .services h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5em;
+            margin-bottom: 40px;
+        }
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .service-card {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(170, 88, 37, 0.2);
+            transition: transform 0.3s ease;
+            opacity: 0;
+        }
+        .service-card.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .service-card h3 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+        .service-link {
+            display: inline-block;
+            margin-top: 10px;
+            color: #aa5825;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        .service-link:hover {
+            color: #d89b6e;
+        }
+
+        /* About Us Section */
+        .about {
+            padding: 80px 20px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        .about h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5em;
+            margin-bottom: 40px;
+        }
+        .about-content {
+            max-width: 800px;
+            margin: 0 auto;
+            opacity: 0;
+        }
+        .about-content.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .about-content p {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+        }
+
+        /* Testimonials Section */
+        .testimonials {
+            padding: 80px 20px;
+            text-align: center;
+        }
+        .testimonials h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5em;
+            margin-bottom: 40px;
+        }
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .testimonial-card {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(170, 88, 37, 0.2);
+            opacity: 0;
+        }
+        .testimonial-card.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .author {
+            display: block;
+            margin-top: 10px;
+            font-style: italic;
+            color: #d89b6e;
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 80px 20px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        .contact h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5em;
+            margin-bottom: 40px;
+        }
+        .contact-info {
+            max-width: 600px;
+            margin: 0 auto;
+            opacity: 0;
+        }
+        .contact-info.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .contact-info p {
+            font-size: 1.2em;
+            margin-bottom: 15px;
+        }
+        .contact-info a {
+            color: #aa5825;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .contact-info a:hover {
+            color: #d89b6e;
+        }
+
+        /* Social Media Section */
+        .social-media {
+            padding: 80px 20px;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(170, 88, 37, 0.1), rgba(216, 155, 110, 0.3));
+            position: relative;
+            overflow: hidden;
+        }
+        .social-media h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5em;
+            margin-bottom: 40px;
+            text-shadow: 0 0 10px rgba(170, 88, 37, 0.3);
+        }
+        .social-grid {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+        }
+        .social-card {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 15px rgba(170, 88, 37, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .social-card:hover {
+            transform: scale(1.2) rotate(5deg);
+            box-shadow: 0 10px 20px rgba(170, 88, 37, 0.4);
+        }
+        .social-card a {
+            color: #aa5825;
+            font-size: 2.5em;
+            text-decoration: none;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+        .social-card:hover a {
+            color: #d89b6e;
+            transform: scale(1.1);
+        }
+        .social-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(216, 155, 110, 0.2), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+        }
+        .social-card:hover::before {
+            opacity: 1;
+        }
+        .social-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.1;
+            background: url('{% static "images/coffee-bg.png" %}') no-repeat center;
+            background-size: cover;
+        }
+
+        /* Footer */
+        footer {
+            padding: 20px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.9);
+            color: #aa5825;
+        }
+        footer a {
+            color: #aa5825;
+            text-decoration: none;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+            }
+            .nav-links {
+                display: none;
+                position: fixed;
+                top: 60px;
+                left: 0;
+                width: 100%;
+                max-height: calc(100vh - 60px);
+                background: rgba(255, 255, 255, 0.95);
+                flex-direction: column;
+                align-items: center;
+                padding: 20px;
+                box-shadow: 0 5px 15px rgba(170, 88, 37, 0.2);
+                z-index: 1000;
+                overflow-y: auto;
+            }
+            .nav-links.active {
+                display: flex;
+            }
+            .nav-links li {
+                margin: 15px 0;
+            }
+            .hero h1 {
+                font-size: 2.5em;
+            }
+            .description {
+                font-size: 1.1em;
+            }
+            .carousel-item {
+                height: 300px;
+                background-size: auto 300px;
+            }
+            .logo img {
+                height: 40px;
+            }
+            .social-card {
+                width: 80px;
+                height: 80px;
+            }
+            .social-card a {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="particles"></div>
+    <nav class="navbar">
+        <div class="nav-container">
+            <button class="hamburger">☰</button>
+            <ul class="nav-links">
+                {% if not user.is_authenticated %}
+                    <!-- Login and Sign Up moved to the top to appear on the far left -->
+                    <li><a href="{% url 'login' %}" class="nav-item">تسجيل دخول</a></li>
+                    <li><a href="{% url 'cafe:signup' %}" class="nav-item">انشاء حساب</a></li>
+                    <!-- Rest of the navigation items -->
+                    <li><a href="#social" class="nav-item">سوشيال ميديا</a></li> <!-- Added Social Media link -->
+                    <li><a href="#contact" class="nav-item">اتصل بينا</a></li>
+                    <li><a href="#testimonials" class="nav-item">آراء الناس</a></li>
+                    <li><a href="#about" class="nav-item">عننا</a></li>
+                    <li><a href="#services" class="nav-item">خدماتنا</a></li>
+                    <li><a href="#menu" class="nav-item">المنيو</a></li>
+                    <li><a href="#social" class="nav-item">سوشيال ميديا</a></li> <!-- Added Social Media link -->
+                    <li><a href="#home" class="nav-item">الرئيسية</a></li>
+                {% endif %}
+                {% if user.is_authenticated %}
+                    <!-- Reversed order: Logout -> Reserve Table -->
+                    <li>
+                        <a href="{% url 'cafe:logout' %}" class="nav-item logout-link">خروج ({{ user.username }})</a>
+                        <span class="points-display">نقاطك: {{ points }}</span>
+                    </li>
+                    {% if user.is_staff %}
+                        <li><a href="{% url 'cafe:admin_page' %}" class="nav-item">لوحة التحكم</a></li>
+                    {% endif %}
+                    <li><a href="{% url 'cafe:place_order' %}" class="nav-item">اطلب أوردر</a></li>
+                    <li><a href="{% url 'cafe:reserve_ps_room' %}" class="nav-item">احجز أوضة</a></li>
+                    <li><a href="{% url 'cafe:reserve_table' %}" class="nav-item">احجز ترابيزة</a></li>
+                {% endif %}
+            </ul>
+        </div>
+        <div class="logo">
+            <img src="{% static 'images/logo.png' %}" alt="رُكنَة كافيه Logo">
+        </div>
+    </nav>
+    <section id="home" class="hero">
+        <h1>أهلاً بيك في رُكنَة كافيه</h1>
+        <p class="description">استمتع بمشروبات لذيذة، حلويات مميزة، وألعاب مسلية في أجواء رائعة!</p>
+        <a href="#menu" class="cta-button">شوف المنيو بتاعنا</a>
+    </section>
+
+    <section id="menu" class="menu">
+        <h2>المنيو بتاعنا</h2>
+        <!-- Debug output for menu_images -->
+        <div style="display: none;">Debug: {{ menu_images }}</div>
+        <!-- Preload images to ensure they are fetched by the browser -->
+        <div style="display: none;">
+            {% for image in menu_images %}
+                <img src="{% static "menu/"|add:image|safe %}" alt="preload">
+            {% endfor %}
+        </div>
+        <div class="carousel">
+            <button class="carousel-arrow left-arrow">←</button>
+            <div class="carousel-track">
+                {% for image in menu_images %}
+                    <div class="carousel-item" style="background-image: url('{% static "menu/"|add:image|safe %}');"></div>
+                {% endfor %}
+            </div>
+            <button class="carousel-arrow right-arrow">→</button>
+        </div>
+    </section>
+
+    <section id="services" class="services">
+        <h2>خدماتنا</h2>
+        <div class="service-grid">
+            <div class="service-card">
+                <h3>حجز ترابيزة</h3>
+                <p>احجز ترابيزتك واستمتع بأجواء مريحة وخدمة مميزة في الكافيه.</p>
+                {% if user.is_authenticated %}<a href="{% url 'cafe:reserve_table' %}" class="service-link">احجز حالا</a>{% endif %}
+            </div>
+            <div class="service-card">
+                <h3>حجز روم</h3>
+                <p>استمتع بتجربة فريدة في مساحتك الخاصة، سواء لمغامرة جيمنج مشوقة أو لمشاهدة أفلامك المفضلة في أجواء راقية ومريحة.</p>
+                {% if user.is_authenticated %}<a href="{% url 'cafe:reserve_ps_room' %}" class="service-link">احجز حالا</a>{% endif %}
+            </div>
+            <div class="service-card">
+                <h3>طلبات داخل الكافيه</h3>
+                <p>استمتع بمشروباتك وحلوياتك المفضلة، وتوصل لك لحد ترابيزتك بكل راحة.</p>
+                {% if user.is_authenticated %}<a href="{% url 'cafe:place_order' %}" class="service-link">اطلب حالا</a>{% endif %}
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="about">
+        <h2>عن رُكنَة كافيه</h2>
+        <div class="about-content">
+            <p>رُكنَة كافيه مش مجرد كافيه عادي! إحنا بنقدملك تجربة فريدة تجمع بين الراحة، الترفيه، والأجواء الدافئة في مكان واحد. سواء كنت عايز تقضي وقت هادي مع كتاب، تتفرج على فيلم، تلعب مع أصحابك، أو تجرب أحدث الألعاب الورقية، هتلاقي عندنا كل اللي يناسبك.</p>
+            <p>استمتع بمجموعة متنوعة من المشروبات، الحلويات، وأجواء مليانة حيوية ومرح. تعالى عِش التجربة بنفسك، وخلي رُكنَة كافيه مكانك المفضل!</p>
+        </div>
+    </section>
+
+    <section id="feedback" class="feedback">
+        <h2>قولنا رأيك الظريف</h2>
+        <form class="feedback-form" method="POST" action="{% url 'cafe:home' %}">
+            {% csrf_token %}
+            <input type="text" name="author" placeholder="اسمك الحلو" required>
+            <textarea name="content" placeholder="قولنا رأيك هنا" required></textarea>
+            <button type="submit">ابعت رأيك</button>
+        </form>
+    </section>
+
+    <section id="testimonials" class="testimonials">
+        <h2>الناس قالوا إيه عنا</h2>
+        <div class="testimonial-grid">
+            {% for testimonial in testimonials %}
+                <div class="testimonial-card">
+                    <p>"{{ testimonial.content }}"</p>
+                    <span class="author">— {{ testimonial.author }}</span>
+                </div>
+            {% empty %}
+                <p>لسه مفيش آراء. قول رأيك وكُن الأول!</p>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section id="contact" class="contact">
+        <h2>كلمنا</h2>
+        <div class="contact-info">
+            <p><strong>المكان:</strong> ميت غمر، شارع شفیق البکری، متفرع من شارع بورسعيد، برج الجوهرة، قدام مدرسة الاقباط</p>
+            <p><strong>المواعيد:</strong> 24 ساعة، كل يوم</p>
+            <p><strong>الإيميل:</strong> <a href="mailto:roknacafe@gmail.com">roknacafe@gmail.com</a></p>
+            <p><strong>التليفون:</strong> <a href="tel:01557096973">+201557096973</a></p>
+        </div>
+    </section>
+
+    <section id="social" class="social-media">
+        <h2>تابعنا على السوشيال ميديا</h2>
+        <div class="social-bg"></div>
+        <div class="social-grid">
+            <div class="social-card">
+                <a href="https://www.facebook.com/rokna.cafe2024" target="_blank" aria-label="فيسبوك">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+            </div>
+            <div class="social-card">
+                <a href="https://instagram.com/rokna_cafe" target="_blank" aria-label="إنستجرام">
+                    <i class="fab fa-instagram"></i>
+                </a>
+            </div>
+            <div class="social-card">
+                <a href="https://wa.me/201557096973" target="_blank" aria-label="واتساب">
+                    <i class="fab fa-whatsapp"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p dir="ltr"> © 2025 Rukna Cafe. Made by <a href="https://wa.me/201275311174">Serag Mostafa</a> </p>
+    </footer>
+
+    <script>
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            hamburger.textContent = navLinks.classList.contains('active') ? '✕' : '☰';
+        });
+
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', () => {
+                if (window.innerWidth <= 768) {
+                    navLinks.classList.remove('active');
+                    hamburger.textContent = '☰';
+                }
+            });
+        });
+
+        const logoutLink = document.querySelector('.logout-link');
+        if (logoutLink) {
+            logoutLink.addEventListener('click', (e) => {
+                if (window.innerWidth <= 768) {
+                    navLinks.classList.remove('active');
+                    hamburger.textContent = '☰';
+                }
+            });
+        }
+
+        document.querySelectorAll('.nav-item, .cta-button').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                if (href.startsWith('#')) {
+                    e.preventDefault();
+                    const targetId = href.substring(1);
+                    const targetElement = document.getElementById(targetId);
+                    targetElement.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        const particlesContainer = document.querySelector('.particles');
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            const size = Math.random() * 5 + 2;
+            particle.style.width = `${size}px`;
+            particle.style.height = `${size}px`;
+            particle.style.left = `${Math.random() * 100}vw`;
+            particle.style.top = `${Math.random() * 100}vh`;
+            const duration = Math.random() * 10 + 5;
+            particle.style.animation = `float ${duration}s infinite linear`;
+            particlesContainer.appendChild(particle);
+            setTimeout(() => particle.remove(), duration * 1000);
+        }
+        setInterval(createParticle, 300);
+
+        const styleSheet = document.createElement('style');
+        styleSheet.textContent = `
+            @keyframes float {
+                0% { transform: translateY(0) translateX(0); opacity: 0.5; }
+                50% { transform: translateY(-20vh) translateX(${Math.random() * 20 - 10}vw); opacity: 0.8; }
+                100% { transform: translateY(-40vh) translateX(${Math.random() * 20 - 10}vw); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(styleSheet);
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    entry.target.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.3 });
+
+        document.querySelectorAll('.service-card, .carousel-item, .testimonial-card, .about-content, .contact-info, .social-card').forEach(element => {
+            element.style.transform = 'translateY(50px)';
+            observer.observe(element);
+        });
+
+        const ctaButton = document.querySelector('.cta-button');
+        ctaButton.addEventListener('mouseover', () => {
+            ctaButton.style.transform = 'scale(1.1) rotate(2deg)';
+        });
+        ctaButton.addEventListener('mouseout', () => {
+            ctaButton.style.transform = 'scale(1)';
+        });
+
+        const carouselTrack = document.querySelector('.carousel-track');
+        const carouselItems = document.querySelectorAll('.carousel-item');
+        const leftArrow = document.querySelector('.left-arrow');
+        const rightArrow = document.querySelector('.right-arrow');
+        let currentIndex = 0;
+
+        function updateCarousel() {
+            const itemWidth = carouselItems[0].offsetWidth;
+            carouselTrack.style.transform = `translateX(-${currentIndex * itemWidth}px)`;
+            carouselItems.forEach((item, index) => {
+                item.classList.toggle('active', index === currentIndex);
+            });
+        }
+
+        leftArrow.addEventListener('click', () => {
+            if (currentIndex > 0) {
+                currentIndex--;
+                updateCarousel();
+            }
+        });
+
+        rightArrow.addEventListener('click', () => {
+            if (currentIndex < carouselItems.length - 1) {
+                currentIndex++;
+                updateCarousel();
+            }
+        });
+
+        updateCarousel();
+    </script>
+</body>
+</html>

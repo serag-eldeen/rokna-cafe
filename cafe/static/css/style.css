@@ -1,0 +1,603 @@
+/* Global Styles */
+body {
+    font-family: 'Orbitron', 'Poppins', sans-serif;
+    background: #e4d3c1; /* Soothing beige background */
+    color: #aa5825; /* Warm coffee text */
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 30px;
+    line-height: 1.8;
+    position: relative;
+    overflow-x: hidden;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased; /* Smoother text rendering */
+    -moz-osx-font-smoothing: grayscale; /* Smoother text for Firefox */
+}
+
+/* Animated Background Layer (Parallax Effect) */
+.particles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    z-index: -1;
+    overflow: hidden;
+    -webkit-transform: translateZ(-1px) scale(2); /* Safari, Chrome */
+    -moz-transform: translateZ(-1px) scale(2); /* Firefox */
+    transform: translateZ(-1px) scale(2); /* Standard parallax */
+}
+
+.particles::before {
+    content: '';
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: rgba(170, 88, 37, 0.5); /* Subtle coffee glow */
+    -webkit-border-radius: 50%; /* Safari 3-4, Chrome */
+    -moz-border-radius: 50%; /* Firefox */
+    border-radius: 50%; /* Standard */
+    -webkit-box-shadow: 0 0 15px rgba(170, 88, 37, 0.3); /* Safari, Chrome */
+    -moz-box-shadow: 0 0 15px rgba(170, 88, 37, 0.3); /* Firefox */
+    box-shadow: 0 0 15px rgba(170, 88, 37, 0.3); /* Standard */
+    -webkit-animation: drift 12s infinite ease-in-out; /* Safari, Chrome */
+    -moz-animation: drift 12s infinite ease-in-out; /* Firefox */
+    animation: drift 12s infinite ease-in-out; /* Standard */
+}
+
+@keyframes drift {
+    0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.3; }
+    50% { transform: translate(30vw, 40vh) scale(1.2); opacity: 0.6; }
+}
+
+.particles::after {
+    content: '';
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background: rgba(228, 211, 193, 0.5); /* Subtle beige glow */
+    -webkit-border-radius: 50%; /* Safari 3-4, Chrome */
+    -moz-border-radius: 50%; /* Firefox */
+    border-radius: 50%; /* Standard */
+    -webkit-box-shadow: 0 0 10px rgba(228, 211, 193, 0.3); /* Safari, Chrome */
+    -moz-box-shadow: 0 0 10px rgba(228, 211, 193, 0.3); /* Firefox */
+    box-shadow: 0 0 10px rgba(228, 211, 193, 0.3); /* Standard */
+    -webkit-animation: drift 15s infinite ease-in-out reverse; /* Safari, Chrome */
+    -moz-animation: drift 15s infinite ease-in-out reverse; /* Firefox */
+    animation: drift 15s infinite ease-in-out reverse; /* Standard */
+}
+
+/* Navbar */
+.navbar {
+    display: -webkit-flex; /* Safari */
+    display: -moz-flex; /* Firefox */
+    display: flex; /* Standard */
+    -webkit-justify-content: space-between; /* Safari */
+    -moz-justify-content: space-between; /* Firefox */
+    justify-content: space-between; /* Standard */
+    -webkit-align-items: center; /* Safari */
+    -moz-align-items: center; /* Firefox */
+    align-items: center; /* Standard */
+    padding: 15px 30px; /* Reduced padding */
+    background: rgba(228, 211, 193, 0.95); /* Beige with transparency */
+    border-bottom: 2px solid rgba(170, 88, 37, 0.5); /* Subtle coffee border */
+    position: -webkit-sticky; /* Safari */
+    position: sticky; /* Standard */
+    top: 0;
+    z-index: 1000;
+    -webkit-backdrop-filter: blur(8px); /* Safari 9+ */
+    backdrop-filter: blur(8px); /* Standard */
+    -webkit-border-radius: 0 0 15px 15px; /* Safari 3-4, Chrome */
+    -moz-border-radius: 0 0 15px 15px; /* Firefox */
+    border-radius: 0 0 15px 15px; /* Standard */
+    -webkit-box-shadow: 0 4px 20px rgba(170, 88, 37, 0.1); /* Safari, Chrome */
+    -moz-box-shadow: 0 4px 20px rgba(170, 88, 37, 0.1); /* Firefox */
+    box-shadow: 0 4px 20px rgba(170, 88, 37, 0.1); /* Standard */
+    -webkit-transition: background 0.3s ease, box-shadow 0.3s ease; /* Safari */
+    -moz-transition: background 0.3s ease, box-shadow 0.3s ease; /* Firefox */
+    transition: background 0.3s ease, box-shadow 0.3s ease; /* Standard */
+}
+
+.navbar:hover {
+    background: rgba(228, 211, 193, 1);
+    -webkit-box-shadow: 0 6px 25px rgba(216, 155, 110, 0.2); /* Safari, Chrome */
+    -moz-box-shadow: 0 6px 25px rgba(216, 155, 110, 0.2); /* Firefox */
+    box-shadow: 0 6px 25px rgba(216, 155, 110, 0.2); /* Peach hover shadow */
+}
+
+.logo h2 {
+    margin: 0;
+    font-size: 2em; /* Slightly smaller for balance */
+    color: #aa5825; /* Coffee brown text */
+    text-shadow: 0 0 8px rgba(170, 88, 37, 0.4);
+    -webkit-animation: pulse 2s infinite ease-in-out; /* Safari, Chrome */
+    -moz-animation: pulse 2s infinite ease-in-out; /* Firefox */
+    animation: pulse 2s infinite ease-in-out; /* Standard */
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+.nav-links {
+    list-style: none;
+    display: -webkit-flex; /* Safari */
+    display: -moz-flex; /* Firefox */
+    display: flex; /* Standard */
+    gap: 20px; /* Reduced gap for smaller buttons */
+    margin: 0;
+    padding: 0;
+    -webkit-transition: -webkit-transform 0.5s ease, opacity 0.5s ease; /* Safari */
+    -moz-transition: -moz-transform 0.5s ease, opacity 0.5s ease; /* Firefox */
+    transition: transform 0.5s ease, opacity 0.5s ease; /* Standard */
+}
+
+.nav-item {
+    font-size: 1em; /* Smaller font size */
+    font-weight: 600;
+    padding: 6px 12px; /* Smaller padding */
+    color: #aa5825; /* Coffee brown text */
+    position: relative;
+    -webkit-transition: -webkit-transform 0.3s ease, color 0.3s ease, text-shadow 0.3s ease, background 0.3s ease; /* Safari */
+    -moz-transition: -moz-transform 0.3s ease, color 0.3s ease, text-shadow 0.3s ease, background 0.3s ease; /* Firefox */
+    transition: transform 0.3s ease, color 0.3s ease, text-shadow 0.3s ease, background 0.3s ease; /* Standard */
+}
+
+.nav-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(216, 155, 110, 0); /* Transparent initially */
+    -webkit-border-radius: 8px; /* Safari 3-4, Chrome */
+    -moz-border-radius: 8px; /* Firefox */
+    border-radius: 8px; /* Standard */
+    -webkit-transition: background 0.3s ease; /* Safari */
+    -moz-transition: background 0.3s ease; /* Firefox */
+    transition: background 0.3s ease; /* Standard */
+    z-index: -1;
+}
+
+.nav-item:hover::before {
+    background: rgba(216, 155, 110, 0.3); /* Peach hover background */
+}
+
+.nav-item:hover {
+    -webkit-transform: translateY(-3px); /* Safari, Chrome */
+    -moz-transform: translateY(-3px); /* Firefox */
+    transform: translateY(-3px); /* Standard */
+    color: #d89b6e; /* Peach hover color */
+    text-shadow: 0 0 10px rgba(216, 155, 110, 0.5);
+}
+
+/* Hamburger Menu for Mobile */
+.hamburger {
+    display: none; /* Hidden by default on desktop */
+    font-size: 1.8em; /* Slightly smaller for balance */
+    color: #aa5825;
+    background: none;
+    border: none;
+    cursor: pointer;
+    -webkit-transition: color 0.3s ease; /* Safari */
+    -moz-transition: color 0.3s ease; /* Firefox */
+    transition: color 0.3s ease; /* Standard */
+}
+
+.hamburger:hover {
+    color: #d89b6e; /* Peach hover color */
+}
+
+/* Mobile Menu Toggle */
+@media (max-width: 768px) {
+    .navbar {
+        padding: 10px 15px; /* Reduced padding for mobile */
+        -webkit-flex-wrap: wrap; /* Safari */
+        -moz-flex-wrap: wrap; /* Firefox */
+        flex-wrap: wrap; /* Standard */
+    }
+
+    .hamburger {
+        display: block;
+    }
+
+    .nav-links {
+        list-style: disc inside;
+        -webkit-flex-direction: column;
+        -moz-flex-direction: column;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: rgba(228, 211, 193, 0.98);
+        padding: 15px 0;
+        -webkit-transform: translateY(-100%);
+        -moz-transform: translateY(-100%);
+        transform: translateY(-100%);
+        opacity: 0;
+        -webkit-box-shadow: 0 4px 20px rgba(170, 88, 37, 0.1);
+        -moz-box-shadow: 0 4px 20px rgba(170, 88, 37, 0.1);
+        box-shadow: 0 4px 20px rgba(170, 88, 37, 0.1);
+        -webkit-transition: -webkit-transform 0.5s ease, opacity 0.5s ease;
+        -moz-transition: -moz-transform 0.5s ease, opacity 0.5s ease;
+        transition: transform 0.5s ease, opacity 0.5s ease;
+    }
+
+    .nav-links.active {
+        -webkit-transform: translateY(0);
+        -moz-transform: translateY(0);
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+
+    .nav-item {
+        font-size: 1em; /* Consistent smaller size */
+        padding: 10px 15px; /* Smaller padding for mobile */
+        text-align: left; /* Align with list bullets */
+    }
+
+    .nav-item:hover::before {
+        background: rgba(216, 155, 110, 0.5); /* Stronger peach hover on mobile */
+    }
+}
+
+/* Rest of the CSS (unchanged) */
+.hero {
+    text-align: center;
+    padding: 120px 0;
+    position: relative;
+    -webkit-perspective: 1000px; /* Safari */
+    perspective: 1000px; /* Standard */
+    background: rgba(228, 211, 193, 0.2);
+    -webkit-border-radius: 20px; /* Safari 3-4, Chrome */
+    -moz-border-radius: 20px; /* Firefox */
+    border-radius: 20px; /* Standard */
+}
+
+.hero h1 {
+    font-size: 4.5em;
+    color: #aa5825; /* Coffee brown text */
+    text-shadow: 0 0 10px rgba(170, 88, 37, 0.3), 0 0 20px rgba(228, 211, 193, 0.2);
+    -webkit-transform: translateZ(30px); /* Safari, Chrome */
+    -moz-transform: translateZ(30px); /* Firefox */
+    transform: translateZ(30px); /* Standard */
+    -webkit-animation: fadeIn 1.5s ease-out; /* Safari, Chrome */
+    -moz-animation: fadeIn 1.5s ease-out; /* Firefox */
+    animation: fadeIn 1.5s ease-out; /* Standard */
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateZ(0); }
+    to { opacity: 1; transform: translateZ(30px); }
+}
+
+.description {
+    font-size: 1.5em;
+    max-width: 900px;
+    margin: 30px auto;
+    color: #aa5825; /* Coffee brown text */
+    background: rgba(228, 211, 193, 0.4);
+    padding: 20px 30px;
+    -webkit-border-radius: 15px; /* Safari 3-4, Chrome */
+    -moz-border-radius: 15px; /* Firefox */
+    border-radius: 15px; /* Standard */
+    -webkit-box-shadow: 0 4px 15px rgba(170, 88, 37, 0.1); /* Safari, Chrome */
+    -moz-box-shadow: 0 4px 15px rgba(170, 88, 37, 0.1); /* Firefox */
+    box-shadow: 0 4px 15px rgba(170, 88, 37, 0.1); /* Standard */
+    -webkit-transition: background 0.3s ease, box-shadow 0.3s ease; /* Safari */
+    -moz-transition: background 0.3s ease, box-shadow 0.3s ease; /* Firefox */
+    transition: background 0.3s ease, box-shadow 0.3s ease; /* Standard */
+}
+
+.description:hover {
+    background: rgba(216, 155, 110, 0.3); /* Peach hover background */
+    -webkit-box-shadow: 0 6px 20px rgba(216, 155, 110, 0.2); /* Safari, Chrome */
+    -moz-box-shadow: 0 6px 20px rgba(216, 155, 110, 0.2); /* Firefox */
+    box-shadow: 0 6px 20px rgba(216, 155, 110, 0.2); /* Standard */
+}
+
+.cta-button {
+    display: inline-block;
+    padding: 20px 40px;
+    background: #e4d3c1; /* Soothing beige */
+    color: #aa5825; /* Coffee brown text */
+    -webkit-border-radius: 50px; /* Safari 3-4, Chrome */
+    -moz-border-radius: 50px; /* Firefox */
+    border-radius: 50px; /* Standard */
+    font-size: 1.5em;
+    font-weight: 700;
+    border: 2px solid #aa5825;
+    -webkit-box-shadow: 0 0 15px rgba(228, 211, 193, 0.5); /* Safari, Chrome */
+    -moz-box-shadow: 0 0 15px rgba(228, 211, 193, 0.5); /* Firefox */
+    box-shadow: 0 0 15px rgba(228, 211, 193, 0.5); /* Standard */
+    -webkit-transition: -webkit-transform 0.4s ease, box-shadow 0.4s ease, background 0.4s ease, color 0.4s ease; /* Safari */
+    -moz-transition: -moz-transform 0.4s ease, box-shadow 0.4s ease, background 0.4s ease, color 0.4s ease; /* Firefox */
+    transition: transform 0.4s ease, box-shadow 0.4s ease, background 0.4s ease, color 0.4s ease; /* Standard */
+}
+
+.cta-button:hover {
+    -webkit-transform: translateY(-5px) scale(1.05); /* Safari, Chrome */
+    -moz-transform: translateY(-5px) scale(1.05); /* Firefox */
+    transform: translateY(-5px) scale(1.05); /* Standard */
+    background: #d89b6e; /* Peach hover background */
+    color: #e4d3c1; /* Beige text on hover */
+    -webkit-box-shadow: 0 0 25px rgba(216, 155, 110, 0.6); /* Safari, Chrome */
+    -moz-box-shadow: 0 0 25px rgba(216, 155, 110, 0.6); /* Firefox */
+    box-shadow: 0 0 25px rgba(216, 155, 110, 0.6); /* Standard */
+}
+
+/* Services Section */
+.services {
+    padding: 100px 0;
+    position: relative;
+    background: rgba(228, 211, 193, 0.1);
+}
+
+.services h2 {
+    font-size: 3em;
+    color: #aa5825; /* Coffee brown text */
+    text-align: center;
+    margin-bottom: 60px;
+    text-shadow: 0 0 10px rgba(228, 211, 193, 0.3);
+}
+
+.service-grid {
+    display: -webkit-grid; /* Safari (partial support) */
+    display: -moz-grid; /* Firefox (partial support) */
+    display: grid; /* Standard */
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 40px;
+}
+
+.service-card {
+    background: rgba(228, 211, 193, 0.9); /* Soothing beige */
+    padding: 35px;
+    -webkit-border-radius: 20px; /* Safari 3-4, Chrome */
+    -moz-border-radius: 20px; /* Firefox */
+    border-radius: 20px; /* Standard */
+    -webkit-box-shadow: 0 8px 25px rgba(170, 88, 37, 0.15); /* Safari, Chrome */
+    -moz-box-shadow: 0 8px 25px rgba(170, 88, 37, 0.15); /* Firefox */
+    box-shadow: 0 8px 25px rgba(170, 88, 37, 0.15); /* Standard */
+    text-align: center;
+    -webkit-transform: translateZ(0); /* Safari, Chrome */
+    -moz-transform: translateZ(0); /* Firefox */
+    transform: translateZ(0); /* Standard */
+    -webkit-transition: -webkit-transform 0.5s ease, box-shadow 0.5s ease, background 0.5s ease; /* Safari */
+    -moz-transition: -moz-transform 0.5s ease, box-shadow 0.5s ease, background 0.5s ease; /* Firefox */
+    transition: transform 0.5s ease, box-shadow 0.5s ease, background 0.5s ease; /* Standard */
+    border: 1px solid rgba(170, 88, 37, 0.3);
+}
+
+.service-card:hover {
+    -webkit-transform: translateZ(20px) translateY(-10px); /* Safari, Chrome */
+    -moz-transform: translateZ(20px) translateY(-10px); /* Firefox */
+    transform: translateZ(20px) translateY(-10px); /* Standard */
+    background: rgba(216, 155, 110, 0.9); /* Peach hover background */
+    -webkit-box-shadow: 0 15px 40px rgba(216, 155, 110, 0.4); /* Safari, Chrome */
+    -moz-box-shadow: 0 15px 40px rgba(216, 155, 110, 0.4); /* Firefox */
+    box-shadow: 0 15px 40px rgba(216, 155, 110, 0.4); /* Standard */
+}
+
+.service-card h3 {
+    font-size: 1.8em;
+    color: #aa5825; /* Coffee brown text */
+    margin-bottom: 15px;
+    text-shadow: 0 0 5px rgba(228, 211, 193, 0.4);
+    -webkit-transition: color 0.3s ease, text-shadow 0.3s ease; /* Safari */
+    -moz-transition: color 0.3s ease, text-shadow 0.3s ease; /* Firefox */
+    transition: color 0.3s ease, text-shadow 0.3s ease; /* Standard */
+}
+
+.service-card:hover h3 {
+    color: #e4d3c1; /* Beige text on hover */
+    text-shadow: 0 0 10px rgba(228, 211, 193, 0.6);
+}
+
+.service-card p {
+    font-size: 1.2em;
+    color: #aa5825; /* Coffee brown text */
+    -webkit-transition: color 0.3s ease; /* Safari */
+    -moz-transition: color 0.3s ease; /* Firefox */
+    transition: color 0.3s ease; /* Standard */
+}
+
+.service-card:hover p {
+    color: #e4d3c1; /* Beige text on hover */
+}
+
+.service-link {
+    display: inline-block;
+    margin-top: 15px;
+    font-size: 1.2em;
+    color: #aa5825; /* Coffee brown text */
+    -webkit-transition: color 0.3s ease, transform 0.3s ease; /* Safari */
+    -moz-transition: color 0.3s ease, transform 0.3s ease; /* Firefox */
+    transition: color 0.3s ease, transform 0.3s ease; /* Standard */
+}
+
+.service-link:hover {
+    color: #d89b6e; /* Peach hover color */
+    -webkit-transform: scale(1.1); /* Safari, Chrome */
+    -moz-transform: scale(1.1); /* Firefox */
+    transform: scale(1.1); /* Standard */
+}
+
+/* Testimonials Section */
+.testimonials {
+    padding: 100px 0;
+    background: rgba(228, 211, 193, 0.2);
+    -webkit-border-radius: 20px; /* Safari 3-4, Chrome */
+    -moz-border-radius: 20px; /* Firefox */
+    border-radius: 20px; /* Standard */
+    margin: 0 20px;
+}
+
+.testimonials h2 {
+    font-size: 3em;
+    color: #aa5825; /* Coffee brown text */
+    text-align: center;
+    margin-bottom: 60px;
+    text-shadow: 0 0 10px rgba(228, 211, 193, 0.3);
+}
+
+.testimonial-grid {
+    display: -webkit-grid; /* Safari (partial support) */
+    display: -moz-grid; /* Firefox (partial support) */
+    display: grid; /* Standard */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 40px;
+}
+
+.testimonial-card {
+    background: rgba(228, 211, 193, 0.85); /* Soothing beige */
+    padding: 30px;
+    -webkit-border-radius: 15px; /* Safari 3-4, Chrome */
+    -moz-border-radius: 15px; /* Firefox */
+    border-radius: 15px; /* Standard */
+    -webkit-box-shadow: 0 5px 20px rgba(170, 88, 37, 0.1); /* Safari, Chrome */
+    -moz-box-shadow: 0 5px 20px rgba(170, 88, 37, 0.1); /* Firefox */
+    box-shadow: 0 5px 20px rgba(170, 88, 37, 0.1); /* Standard */
+    text-align: center;
+    border: 1px solid rgba(170, 88, 37, 0.2);
+    -webkit-transform-style: preserve-3d; /* Safari, Chrome */
+    -moz-transform-style: preserve-3d; /* Firefox */
+    transform-style: preserve-3d; /* Standard */
+    -webkit-transition: -webkit-transform 0.5s ease, box-shadow 0.5s ease, background 0.5s ease; /* Safari */
+    -moz-transition: -moz-transform 0.5s ease, box-shadow 0.5s ease, background 0.5s ease; /* Firefox */
+    transition: transform 0.5s ease, box-shadow 0.5s ease, background 0.5s ease; /* Standard */
+}
+
+.testimonial-card:hover {
+    -webkit-transform: translateY(-10px) scale(1.03); /* Safari, Chrome */
+    -moz-transform: translateY(-10px) scale(1.03); /* Firefox */
+    transform: translateY(-10px) scale(1.03); /* Standard */
+    background: rgba(216, 155, 110, 0.85); /* Peach hover background */
+    -webkit-box-shadow: 0 10px 30px rgba(216, 155, 110, 0.3); /* Safari, Chrome */
+    -moz-box-shadow: 0 10px 30px rgba(216, 155, 110, 0.3); /* Firefox */
+    box-shadow: 0 10px 30px rgba(216, 155, 110, 0.3); /* Standard */
+}
+
+.testimonial-card p {
+    font-style: italic;
+    color: #aa5825; /* Coffee brown text */
+    margin-bottom: 15px;
+    font-size: 1.1em;
+    -webkit-transition: color 0.3s ease; /* Safari */
+    -moz-transition: color 0.3s ease; /* Firefox */
+    transition: color 0.3s ease; /* Standard */
+}
+
+.testimonial-card:hover p {
+    color: #e4d3c1; /* Beige text on hover */
+}
+
+.author {
+    display: block;
+    font-weight: 700;
+    color: #aa5825; /* Coffee brown text */
+    text-shadow: 0 0 5px rgba(228, 211, 193, 0.3);
+    -webkit-transition: color 0.3s ease, text-shadow 0.3s ease; /* Safari */
+    -moz-transition: color 0.3s ease, text-shadow 0.3s ease; /* Firefox */
+    transition: color 0.3s ease, text-shadow 0.3s ease; /* Standard */
+}
+
+.testimonial-card:hover .author {
+    color: #e4d3c1; /* Beige text on hover */
+    text-shadow: 0 0 8px rgba(228, 211, 193, 0.5);
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 40px 0;
+    color: #aa5825; /* Coffee brown text */
+    font-size: 1em;
+    border-top: 1px solid rgba(170, 88, 37, 0.3);
+    background: rgba(228, 211, 193, 0.9);
+    -webkit-box-shadow: 0 -2px 10px rgba(170, 88, 37, 0.1); /* Safari, Chrome */
+    -moz-box-shadow: 0 -2px 10px rgba(170, 88, 37, 0.1); /* Firefox */
+    box-shadow: 0 -2px 10px rgba(170, 88, 37, 0.1); /* Standard */
+    -webkit-transition: background 0.3s ease, box-shadow 0.3s ease; /* Safari */
+    -moz-transition: background 0.3s ease, box-shadow 0.3s ease; /* Firefox */
+    transition: background 0.3s ease, box-shadow 0.3s ease; /* Standard */
+}
+
+footer:hover {
+    background: rgba(216, 155, 110, 0.9); /* Peach hover background */
+    -webkit-box-shadow: 0 -4px 15px rgba(216, 155, 110, 0.2); /* Safari, Chrome */
+    -moz-box-shadow: 0 -4px 15px rgba(216, 155, 110, 0.2); /* Firefox */
+    box-shadow: 0 -4px 15px rgba(216, 155, 110, 0.2); /* Standard */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .navbar {
+        padding: 10px 15px; /* Reduced padding for mobile */
+        -webkit-flex-wrap: wrap; /* Safari */
+        -moz-flex-wrap: wrap; /* Firefox */
+        flex-wrap: wrap; /* Standard */
+    }
+
+    .hamburger {
+        display: block;
+    }
+
+    .nav-links {
+        list-style: disc inside; /* Adds bullet points for mobile list */
+        -webkit-flex-direction: column; /* Safari */
+        -moz-flex-direction: column; /* Firefox */
+        flex-direction: column; /* Standard */
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: rgba(228, 211, 193, 0.98); /* Beige with slight transparency */
+        padding: 15px 0;
+        -webkit-transform: translateY(-100%); /* Safari, Chrome */
+        -moz-transform: translateY(-100%); /* Firefox */
+        transform: translateY(-100%); /* Standard */
+        opacity: 0;
+        -webkit-box-shadow: 0 4px 20px rgba(170, 88, 37, 0.1); /* Safari, Chrome */
+        -moz-box-shadow: 0 4px 20px rgba(170, 88, 37, 0.1); /* Firefox */
+        box-shadow: 0 4px 20px rgba(170, 88, 37, 0.1); /* Standard */
+        -webkit-transition: -webkit-transform 0.5s ease, opacity 0.5s ease; /* Safari */
+        -moz-transition: -moz-transform 0.5s ease, opacity 0.5s ease; /* Firefox */
+        transition: transform 0.5s ease, opacity 0.5s ease; /* Standard */
+    }
+
+    .nav-links.active {
+        -webkit-transform: translateY(0); /* Safari, Chrome */
+        -moz-transform: translateY(0); /* Firefox */
+        transform: translateY(0); /* Standard */
+        opacity: 1;
+    }
+
+    .nav-item {
+        font-size: 1em; /* Consistent smaller size */
+        padding: 10px 15px; /* Smaller padding for mobile */
+        text-align: left; /* Align with list bullets */
+    }
+
+    .nav-item:hover::before {
+        background: rgba(216, 155, 110, 0.5); /* Stronger peach hover on mobile */
+    }
+
+    .hero h1 {
+        font-size: 3em;
+    }
+    .description {
+        font-size: 1.2em;
+    }
+    .cta-button {
+        padding: 15px 25px;
+        font-size: 1.2em;
+    }
+    .service-card, .testimonial-card {
+        padding: 25px;
+    }
+}

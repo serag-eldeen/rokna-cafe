@@ -1,0 +1,93 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>إنشاء حساب - ركنة كافيه</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #e4d3c1, #d89b6e);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .signup-container {
+            width: 100%;
+            max-width: 400px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(170, 88, 37, 0.2);
+            text-align: center;
+        }
+        h1 {
+            color: #aa5825;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+        .error-message {
+            color: #dc3545; /* لون أحمر للأخطاء */
+            background: rgba(220, 53, 69, 0.1);
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            font-size: 0.9em;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        input[type="text"], input[type="password"], input[type="tel"] {
+            padding: 10px;
+            border: 1px solid #aa5825;
+            border-radius: 5px;
+            font-size: 1em;
+            transition: border-color 0.3s ease;
+        }
+        input[type="text"]:focus, input[type="password"]:focus, input[type="tel"]:focus {
+            border-color: #d89b6e;
+            outline: none;
+        }
+        button[type="submit"], .back-button {
+            padding: 10px;
+            background: #aa5825;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        button[type="submit"]:hover, .back-button:hover {
+            background: #d89b6e;
+        }
+        .back-button {
+            margin-top: 15px;
+            display: inline-block;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="signup-container">
+        <h1>إنشاء حساب</h1>
+        {% if error %}
+            <div class="error-message">{{ error }}</div>
+        {% endif %}
+        <form method="POST">
+            {% csrf_token %}
+            <input type="text" name="username" placeholder="اسم المستخدم" required>
+            <input type="tel" name="phone_number" placeholder="رقم التليفون (مثال: +1234567890)" required>
+            <input type="password" name="password1" placeholder="كلمة السر" required>
+            <input type="password" name="password2" placeholder="تأكيد كلمة السر" required>
+            <button type="submit">إرسال</button>
+        </form>
+        <a href="{% url 'cafe:home' %}" class="back-button">الرئيسية</a>
+    </div>
+</body>
+</html>
